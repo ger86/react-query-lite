@@ -1,24 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+import Users from 'components/Users';
+import User from 'components/User';
+import {QueryClientProvider, QueryClient} from 'utils/react-query-lite';
+
+const queryClient = new QueryClient();
 
 function App() {
+  const [userId, setUserId] = useState(null);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div>
+        {userId === null && <Users onClickUser={(id) => setUserId(id)} />}
+        {userId !== null && <User onClickBack={(id) => setUserId(null)} userId={userId} />}
+      </div>
+    </QueryClientProvider>
   );
 }
 
