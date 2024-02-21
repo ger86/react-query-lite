@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {useQuery} from 'utils/react-query-lite';
 
 function useUser(id) {
@@ -13,7 +14,8 @@ function useUser(id) {
 }
 
 export default function User({userId, onClickBack}) {
-  const query = useUser(userId);
+  const [id, setId] = useState(userId);
+  const query = useUser(id);
   if (query.status === 'loading') {
     return <div>Cargando</div>;
   }
@@ -26,6 +28,7 @@ export default function User({userId, onClickBack}) {
     <div>
       <h1>{query.data.data.email}</h1>
       <button onClick={onClickBack}>Volver</button>
+      <button onClick={() => setId(userId + 1)}>Inc</button>
     </div>
   );
 }
